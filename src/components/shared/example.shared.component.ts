@@ -20,7 +20,7 @@ import { Vue, Options } from 'vue-class-component'
 
 	}
 })
-export default class Dropdown extends Vue {
+export default class ExampleComponent extends Vue {
 
 	private onCreated() {
 		console.log('Example Shared Component');
