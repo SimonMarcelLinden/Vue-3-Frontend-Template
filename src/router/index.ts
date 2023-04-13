@@ -16,11 +16,37 @@ const routes: Array<RouteRecordRaw> = [
 				path: "Home",
 				name: "home",
 				component: HomeView,
+				meta: {
+					title: 'Home',
+					metaTags: [
+						{
+							name: 'description',
+							content: 'Home - Landingpage'
+						},
+						{
+							property: 'og:description',
+							content: 'Home - Landingpage'
+						}
+					]
+				}
 			},
 			{
 				path: '/about',
 				name: 'about',
-				component: () => import(/* webpackChunkName: "about" */ '@/views/home-view/home-view.view.vue')
+				component: () => import(/* webpackChunkName: "about" */ '@/views/home-view/home-view.view.vue'),
+				meta: {
+					title: 'About',
+					metaTags: [
+						{
+							name: 'description',
+							content: 'About - About page'
+						},
+						{
+							property: 'og:description',
+							content: 'About - About page'
+						}
+					]
+				}
 			}
 		]
 	},
