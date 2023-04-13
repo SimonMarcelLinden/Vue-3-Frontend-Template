@@ -6,14 +6,16 @@ import store 			from './store'
 import { registerComponents } from "@/register-components";
 import { registerModules }    from "@/register-modules";
 
-import metaDataModule 	from '@/modules/metadata'
+import metaDataModule 			from '@/modules/metadata'
+import authenticationModule 	from '@/modules/authentication'
 
 const app = createApp(App, { /** Options **/ })
 
 registerComponents(app);
 
 registerModules({
-	meta		: metaDataModule,
+	meta			: metaDataModule,
+	authentication	: authenticationModule
 });
 
 app.use(store)
