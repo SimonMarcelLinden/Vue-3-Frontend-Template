@@ -3,11 +3,11 @@ import { actions } 				from './actions.store';
 import { mutations }			from "./mutations.store";
 import { AuthenticationState } 	from './state.store';
 
-import { getUserHelper } 		from '@/helpers';
+import { getTokenHelper, getExpirationHelper } 		from '@/helpers';
 
 export const state: AuthenticationState = {
-	user	: getUserHelper(),
-	status	: { loggedIn: false },
+	token		: getTokenHelper(),
+	expiration	: getExpirationHelper()
 };
 
 export default {

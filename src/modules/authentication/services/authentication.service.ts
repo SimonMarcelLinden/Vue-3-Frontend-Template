@@ -1,5 +1,4 @@
-import { Response }	from '@/models/response/interfaces/response.interface.model';
-import { User }		from '@/models/user/user.model';
+import { Token }	from '@/models/token/token.model';
 import config		from '@/services/_config';
 import axios		from 'axios';
 
@@ -17,21 +16,21 @@ export const AuthenticationService = {
  * @author Simon Marcel Linden
  * @version 1.0
  */
-function login(email: string, password: string): Promise<User> {
+async function login(email: string, password: string): Promise<Token> {
 
-	return axios.post(`${config.apiUrl}/auth/login`, { email, password })
-		.then(handleResponse)
-		.then((response: Response<User>) => {
-
-			const user: User = new User(response.data);
-			localStorage.setItem('user', JSON.stringify(user));
-
-			if (user.token) {
-				axios.defaults.headers.common['Authorization'] = "Bearer " + user.token;
-			}
-
-			return user;
-		})
+	try {
+		const response = handleResponse(await axios.post(`${config.apiUrl}/auth/login`, { email, password }));
+		console.log(response)
+		const token: Token = new Token(response.data);
+		localStorage.setItem('token', JSON.stringify(token));
+		if (token.token) {
+			axios.defaults.headers.common['Authorization'] = "Bearer " + token.token;
+		}
+		console.log(token)
+    	return token;
+	} catch (error: any) {
+		throw error;
+	}
 }
 
 /**
@@ -41,7 +40,7 @@ function login(email: string, password: string): Promise<User> {
  * @version 1.0
  */
 function logout(): void {
-	localStorage.removeItem('user');
+	localStorage.removeItem('token');
 	delete axios.defaults.headers.common.Authorization;
 }
 

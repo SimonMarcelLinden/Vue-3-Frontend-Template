@@ -1,8 +1,6 @@
-import { User } from '@/models/user/user.model';
+import { Token } from '@/models/token/token.model';
 
 export interface AuthenticationState {
-	user	?: User;
-	status	: {
-		loggedIn: boolean
-	};
+	token 		?: Token,
+	expiration 	?: any,
 }

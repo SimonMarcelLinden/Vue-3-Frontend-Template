@@ -4,13 +4,9 @@ import { AuthenticationState } 	from './state.store';
 
 export const getters: GetterTree<AuthenticationState, RootState> = {
 	isAuthenticated: (state: any) => {
-		// return !!state.status.loggedIn;
-		return !!state.user;
+		return state.token && state.expiration > Date.now();
 	},
-	userToken: (state: any) => {
-		return !!state.user ? state.user.token : '';
-	},
-	user: (state: any) => {
-		return state.user;
+	token: (state: any) => {
+		return !!state.token ? state.token : '';
 	},
 };

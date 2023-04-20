@@ -1,31 +1,28 @@
 import { ActionTree }			from 'vuex';
 import { Response }				from '@/models/response/interfaces/response.interface.model';
-import { User } 				from '@/models/user/user.model';
 
 import { AuthenticationService } from '../services';
 
-import { AuthenticationState } 	from './state.store';
 import { RootState }			from '@/store/root.store';
+import { AuthenticationState } 	from './state.store';
+import { Token } 				from '@/models/token/token.model';
 
 // import store 					from "@/01-archiv/store"
 
 export const actions: ActionTree<AuthenticationState, RootState> = {
-	login({ dispatch, commit }: any, { email, password }: { email: string, password: string }) {
-
+	login({ commit }: any, { email, password }: { email: string, password: string }) {
 		return new Promise((resolve, reject) => {
-			// commit('loginRequest', { email });
+			// commit("setBusy");
 
 			return AuthenticationService.login(email, password)
-				.then((response: User) => {
-					commit('loginSuccess', response);
+				.then((response: Token) => {
+					commit('setToken', response);
 					resolve(response);
 				})
+				// .catch((error: any) => {
 				.catch((error: Response<any>) => {
-					// @ts-ignore-next-line
-            		// console.log(error.response.data.localized['en'] || error.message)
-					commit('loginFailure', error);
-					// @ts-ignore-next-line
-					reject(error.response.data.localized);
+					// commit('error/setError', error.response, { root: true })
+					reject(error);
 				});
 		});
 	},

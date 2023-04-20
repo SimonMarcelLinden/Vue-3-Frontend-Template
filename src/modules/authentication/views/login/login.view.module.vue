@@ -7,7 +7,12 @@
 			</legend>
 			<div>
 				<!-- <input type="text" class="form-control is-valid" id="__BVID__32"> -->
-				<input id="email" type="email" placeholder="E-Mail" name="email" :isRequired="true" v-model="credentials.email" modelValue="earl.kuhlman@example.net"/>
+				<input id="email" type="email" placeholder="E-Mail" name="email" v-model="credentials.email"/>
+			</div>
+			<div>
+				<span v-if="this.error.field == 'email'">
+					{{ this.error.message }}
+				</span>
 			</div>
 		</fieldset>
 		<fieldset class="form-group has-float-label mb-4" id="__BVID__33">
@@ -16,7 +21,12 @@
 			</legend>
 			<div>
 				<!-- <input type="password" class="form-control is-valid" id="__BVID__34"> -->
-				<input id="password" type="password" placeholder="*********" name="password" :isRequired="true" v-model="credentials.password" icon="shared-eye-icon" iconDir="right"/>
+				<input id="password"  type="password" placeholder="*********" name="password" :isRequired="true" v-model="credentials.password" icon="shared-eye-icon" iconDir="right"/>
+			</div>
+			<div>
+				<span v-if="this.error.field == 'password'">
+					{{ this.error.message }}
+				</span>
 			</div>
 		</fieldset>
 		<div class="d-flex justify-content-between align-items-center">

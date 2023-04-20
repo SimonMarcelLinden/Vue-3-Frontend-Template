@@ -14,13 +14,15 @@ export default class Login extends Vue {
 
 	// @ts-ignore-next-line
 	private error: Array = {
+		field	: null,
 		title	: null,
 		message	: null
 	};
 
+	// Todo: remove value on finale Version
 	private credentials: any = {
-		email	: '',
-		password: '',
+		email	: 'admin@schulz-hygiene.de',
+		password: 'password',
 	};
 
 	public created() {
@@ -31,15 +33,15 @@ export default class Login extends Vue {
 		const { email, password } = this.credentials;
 		this.loading(true);
 
-		if (email && password) {
-			this.login(this.credentials)
-			.then( () => {
-					router.push('/');
-				}, (error: any) => {
-					this.error = error[lang];
-				},
-			);
+		try {
+			await this.login(this.credentials)
+			router.replace('/');
+		} catch (error: any) {
+			this.error.field 	= Object.keys( error.response.data.data )[0]
+			this.error.title 	= error.response.data.detail;
+			this.error.message 	= error.response.data.data[this.error.field]['en']['message'];
 		}
+
 		this.loading(false);
 	}
 }
