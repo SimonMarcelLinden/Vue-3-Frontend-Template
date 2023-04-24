@@ -1,5 +1,5 @@
 <template>
-	<div id="sidebar" class="sidebar">
+	<div id="sidebar" class="sidebar" ref="sidebar">
 		<div class="sidebar-content">
 			<div class="menu p-relative">
 				<div class="menu-header">
@@ -16,8 +16,8 @@
 				<div class="menu-header">
 					<span>User</span>
 				</div>
-				<div class="menu-item has-sub expand">
-					<a href="#" class="menu-link p-relative d-flex justify-content-end align-items-center">
+				<div class="menu-item has-sub">
+					<a href="#" @click.prevent="handleOpenSub" class="menu-link p-relative d-flex justify-content-end align-items-center">
 						<div class="menu-icon">
 							<i class="bi bi-bag-check"></i>
 						</div>
