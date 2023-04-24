@@ -1,0 +1,184 @@
+//custom mixins
+@mixin transform($transform) {
+	-webkit-transform	: $transform;
+	-moz-transform		: $transform;
+	transform			: $transform;
+}
+
+@mixin animation($animation) {
+	-webkit-animation	: $animation;
+	-moz-animation		: $animation;
+	animation			: $animation;
+}
+
+@mixin keyframes($name, $name1) {
+	@-webkit-keyframes #{$name} {
+		@content;
+	}
+	@-moz-keyframes #{$name} {
+		@content;
+	}
+	@-ms-keyframes #{$name} {
+		@content;
+	}
+	@keyframes #{$name} {
+		@content;
+	}
+}
+
+@mixin opacity($opacity) {
+	-webkit-opacity	: $opacity;
+	-moz-opacity	: $opacity;
+	opacity			: $opacity;
+}
+
+@mixin border-radius($radius) {
+	-webkit-border-radius	: $radius;
+	-moz-border-radius		: $radius;
+	border-radius			: $radius;
+}
+
+//variables
+$size			: 50px;
+$primary-color	: white;
+
+//loader only
+.loader {
+	// --loader-bg-gradient: to left, #00c6ff,  #0072ff;
+	position	: fixed;
+	height		: 100vh;
+	width		: 100vw;
+	top 		: 0;
+	left 		: 0;
+	bottom 		: 0;
+	right 		: 0;
+	background	: #00c6ff;
+	// background	: -webkit-linear-gradient( to left, #00c6ff, #0072ff ); /* Chrome 10-25, Safari 5.1-6 */
+	// background	: linear-gradient( to left, #00c6ff, #0072ff ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	background	: -webkit-linear-gradient( var(--loader-bg-gradient) ); /* Chrome 10-25, Safari 5.1-6 */
+	background	: linear-gradient( var(--loader-bg-gradient) ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	z-index		: 999999;
+}
+.loader-folding {
+	display		: inline-block;
+	width		: $size;
+	height		: $size;
+	font-size	: 0;
+	@include transform(rotate(45deg));
+
+	span {
+		display		: inline-block;
+		position	: relative;
+		width		: $size/2;
+		height		: $size/2;
+		@include transform(scale(1.1));
+		&::before {
+			content: "";
+			background-color		: $primary-color;
+			position				: absolute;
+			display					: block;
+			left					: 0;
+			top						: 0;
+			width					: $size/2;
+			height					: $size/2;
+			-moz-transform-origin	: 100% 100%;
+			-ms-transform-origin	: 100% 100%;
+			-webkit-transform-origin: 100% 100%;
+			transform-origin		: 100% 100%;
+			@include animation(folding 2.5s infinite linear both);
+		}
+	}
+	.leaf2 {
+		@include transform(rotateZ(90deg) scale(1.1));
+
+		&::before {
+			-webkit-animation-delay	: 0.3s;
+			animation-delay			: 0.3s;
+			background-color		: darken($primary-color, 5%);
+		}
+	}
+	.leaf3 {
+		@include transform(rotateZ(270deg) scale(1.1));
+		&::before {
+			-webkit-animation-delay: 0.9s;
+			animation-delay: 0.9s;
+			background-color: darken($primary-color, 5%);
+		}
+	}
+	.leaf4 {
+		@include transform(rotateZ(180deg) scale(1.1));
+		&::before {
+			-webkit-animation-delay: 0.6s;
+			animation-delay: 0.6s;
+			background-color: darken($primary-color, 10%);
+		}
+	}
+}
+
+//animation
+@include keyframes(folding, folding animation) {
+	0%, 10% {
+		@include transform(perspective(140px) rotateX(-180deg));
+		@include opacity(0);
+	}
+	25%, 75% {
+		@include transform(perspective(140px) rotateX(0deg));
+		@include opacity(1);
+	}
+	90%, 100% {
+		@include transform(perspective(140px) rotateY(180deg));
+		@include opacity(0);
+	}
+}
+
+//with loading text and shadow
+.loader-wrapper {
+	position	: fixed;
+	left		: 50%;
+	top				: 50%;
+	margin-top		: -$size;
+	margin-left		: -$size;
+	width			: $size * 2;
+	height			: $size * 2;
+	text-align: center;
+	//shadow
+	&:after {
+		content				: "";
+		position			: absolute;
+		left				: 0;
+		right				: 0;
+		bottom				: -20px;
+		margin				: auto;
+		width				: $size * 1.8;
+		height				: 6px;
+		z-index				: 1;
+		background-color	: rgba(black, 0.1);
+		-webkit-filter		: blur(2px);
+		filter				: blur(2px);
+		@include border-radius(100%);
+		@include animation(shadow 0.5s ease infinite alternate);
+	}
+
+	.loading {
+		position		: relative;
+		display			: block;
+		top				: $size/2;
+		font-size		: 12px;
+		letter-spacing	: 0.1em;
+		color			: $primary-color;
+		@include animation(text 0.5s ease infinite alternate);
+		z-index			: 2;
+	}
+}
+
+@include keyframes(text, text animation) {
+	100% {
+		top: ($size/2) + 10;
+	}
+}
+@include keyframes(shadow, shadow animation) {
+	100% {
+		bottom: -18px;
+		width: $size * 2;
+	}
+}
