@@ -36,7 +36,7 @@ router.beforeEach(async (to: RouteLocationNormalized, from: RouteLocationNormali
 	}
 
 	if(publicPages.includes(to.path) && isAuthenticated)
-		return next(`/`);
+		return next(`/dashboard`);
 
 	return next();
 });

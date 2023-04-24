@@ -29,11 +29,11 @@ export function getTokenHelper(): Token {
  * @author Simon Marcel Linden
  * @version 1.0
  */
-export function getExpirationHelper(): Date {
+export function getExpirationHelper(): Date | null{
 	const tokenStorage = localStorage.getItem('token');
 
 	if (!tokenStorage) {
-		return new Date();
+		return null;
 	}
 
 	const token: Token = JSON.parse(tokenStorage);
