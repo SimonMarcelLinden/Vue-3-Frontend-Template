@@ -8,4 +8,8 @@ export const mutations: MutationTree<AuthenticationState> = {
 		state.token 		= token;
 		state.expiration 	= new Date(token.expiration)
 	},
+	clearToken(state: any, token: Token) {
+		state.token 		= null;
+		state.expiration 	= null;
+	},
 };
