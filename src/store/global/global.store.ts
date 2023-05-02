@@ -1,3 +1,3 @@
 export interface GlobalState {
-	loading	: boolean;
+	busy	: boolean;
 }

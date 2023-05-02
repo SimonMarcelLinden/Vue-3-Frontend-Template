@@ -4,7 +4,7 @@ import { actions } 		from '@/store/global/actions.store';
 import { mutations } 	from '@/store/global/mutations.store';
 
 export const state: GlobalState = {
-	loading : false,
+	busy : false,
 };
 
 export default {
