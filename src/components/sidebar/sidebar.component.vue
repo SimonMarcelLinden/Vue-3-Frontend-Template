@@ -2,56 +2,34 @@
 	<div id="sidebar" class="sidebar" ref="sidebar">
 		<div class="sidebar-content">
 			<div class="menu p-relative">
-				<div class="menu-header">
-					<span>Navigation</span>
-				</div>
+				<template v-for="(groupRoutes, groupName) in filteredRoutes()">
+					<div v-if="groupRoutes.length > 0" class="menu-header">
+						{{ groupName }}
+					</div>
+					<div v-for="route in groupRoutes" :key="route.name"  class="menu-item" :class="{'active' : $route.matched.some(({ name }) => name === route.name) , 'has-sub' : route.children}">
+						<a v-if="route.children" href="#" class="menu-link p-relative d-flex justify-content-end align-items-center" @click.prevent="handleOpenSub">
+							<span class="menu-icon p-relative d-flex justify-content-center align-items-center">
+								<i class="bi" :class="route.meta.icon ? route.meta.icon : 'bi-question'"></i>
+							</span>
+							<span class="menu-text">{{ route.meta.title ? route.meta.title : route.name }}</span>
+							<span class="menu-caret"><b class="caret"></b></span>
+						</a>
+						<router-link v-else :to="route.path" class="menu-link p-relative d-flex justify-content-end align-items-center" @click.prevent="handleOpenSub">
+							<span class="menu-icon p-relative d-flex justify-content-center align-items-center">
+								<i class="bi" :class="route.meta.icon ? route.meta.icon : 'bi-question'"></i>
+							</span>
+							<span class="menu-text">{{ route.meta.title ? route.meta.title : route.name }}</span>
+						</router-link>
 
-				<div class="menu-item active">
-					<a href="index.html" class="menu-link p-relative d-flex justify-content-end align-items-center">
-						<span class="menu-icon p-relative d-flex justify-content-center align-items-center"><i class="bi bi-cpu"></i></span>
-						<span class="menu-text">Dashboard</span>
-					</a>
-				</div>
-
-				<div class="menu-header">
-					<span>User</span>
-				</div>
-				<div class="menu-item has-sub">
-					<a href="#" @click.prevent="handleOpenSub" class="menu-link p-relative d-flex justify-content-end align-items-center">
-						<div class="menu-icon">
-							<i class="bi bi-bag-check"></i>
-						</div>
-						<div class="menu-text d-flex align-items-center">POS System</div>
-						<span class="menu-caret"><b class="caret"></b></span>
-					</a>
-					<div class="menu-submenu">
-						<div class="menu-item p-relative">
-							<a href="pos_customer_order.html" target="_blank" class="menu-link p-relative d-flex justify-content-end align-items-center">
-								<div class="menu-text">Customer Order</div>
-							</a>
-						</div>
-						<div class="menu-item p-relative">
-							<a href="pos_kitchen_order.html" target="_blank" class="menu-link p-relative d-flex justify-content-end align-items-center">
-								<div class="menu-text">Kitchen Order</div>
-							</a>
-						</div>
-						<div class="menu-item p-relative">
-							<a href="pos_counter_checkout.html" target="_blank" class="menu-link p-relative d-flex justify-content-end align-items-center">
-								<div class="menu-text">Counter Checkout</div>
-							</a>
-						</div>
-						<div class="menu-item p-relative">
-							<a href="pos_table_booking.html" target="_blank" class="menu-link p-relative d-flex justify-content-end align-items-center">
-								<div class="menu-text">Table Booking</div>
-							</a>
-						</div>
-						<div class="menu-item p-relative">
-							<a href="pos_menu_stock.html" target="_blank" class="menu-link p-relative d-flex justify-content-end align-items-center">
-								<div class="menu-text">Menu Stock</div>
-							</a>
+						<div v-if="route.children" class="menu-submenu">
+							<div v-for="item in route.children" class="menu-item">
+								<router-link :to="item.path"  class="menu-link p-relative d-flex justify-content-end align-items-center">
+									<span class="menu-text">{{ item.meta.title ? item.meta.title : item.name }}</span>
+								</router-link>
+							</div>
 						</div>
 					</div>
-				</div>
+				</template>
 			</div>
 			<div class="p-3 px-4 mt-auto"></div>
 		</div>

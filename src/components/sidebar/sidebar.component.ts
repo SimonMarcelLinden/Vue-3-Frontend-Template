@@ -1,6 +1,8 @@
+import { forEach } from 'lodash';
 import { Vue, Options } from 'vue-class-component'
+import { RouteRecordRaw } from 'vue-router';
 
-// const body = document.getElementsByTagName("body")[0];
+// import { useRouter } from 'vue-router'
 
 /**
  *
@@ -21,6 +23,8 @@ export default class SidebarComponent extends Vue {
 	private sidebarRef		: HTMLElement | null = null;
 	private dataTargetClass	!: string;
 	private dataTarget		!: string;
+
+	private parentHeader	: {} = { name: '', title: ''};
 
 	/**
 	 *
@@ -73,4 +77,31 @@ export default class SidebarComponent extends Vue {
 	}
 
 	/** Todo: Fill sidebar items dynamically and pay attention to user roles */
+
+	/**
+	 * @description Filter all Routes and return all childrens, sorted by his groups, from Parent Route AppEntry
+	 * @return RouteRecordRaw[]
+	 *
+	 * @author Simon Marcel Linden
+	 * @version 1.0
+	 */
+	private filteredRoutes(): { [key: string]: RouteRecordRaw[] } {
+
+		const groups: { [key: string]: RouteRecordRaw[] } = {};
+		const routes = this.$router.options.routes.find((route: RouteRecordRaw) => route.name === 'AppEntry')?.children || [];
+
+		routes.forEach((route) => {
+			if (route.meta && route.meta.group) {
+				// @ts-ignore-next-line
+				if (!groups[route.meta.group]) {
+					// @ts-ignore-next-line
+					groups[route.meta.group] = [];
+				}
+				// @ts-ignore-next-line
+				groups[route.meta.group].push(route);
+			}
+		});
+
+		return groups;
+	}
 }
