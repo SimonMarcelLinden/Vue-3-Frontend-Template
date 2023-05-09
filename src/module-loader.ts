@@ -7,7 +7,7 @@ import store 	from '@/store'
 interface Module {
 	components	?: Record<string, any>;
 	routes		?: RouteRecordRaw[];
-	guard		?: NavigationGuard;
+	guards		?: NavigationGuard[];
 	store		?: Store<any>
 	services	?: Record<string, any>;
 }
@@ -59,6 +59,15 @@ function registerComponents(app: App, components: Record<string, any>): void {
 	}
 }
 
+// Create the router
+const router = createRouter({
+	history: createWebHistory(),
+	routes: [],
+});
+
+// Liste der Guards
+const guards: NavigationGuard[] = [];
+
 /**
  * Registers the routes of a module to the router.
  *
@@ -85,9 +94,14 @@ function registerRoutes(routes: RouteRecordRaw[], router: Router): void {
  * @since 1.0.0
  * @version 1.0.0
  */
-function registerGuard(guard: any, router: Router): void{
-	router.beforeEach(guard);
+function registerGuard(guard: NavigationGuard): void{
+	guards.push(guard);
 }
+
+router.beforeEach((to, from, next) => {
+	guards.forEach((guard) => guard(to, from, next));
+	next();
+});
 
 /**
  * Registers the services of a module.
@@ -119,11 +133,7 @@ function registerStore(name: string, moduleStore: any): void {
 	moduleStore && store.registerModule(name, moduleStore);
 }
 
-// Create the router
-const router = createRouter({
-	history: createWebHistory(),
-	routes: [],
-});
+/** Export functions and variables */
 
 /**
  * Adds default routes to the router.
@@ -164,8 +174,10 @@ export async function registerModule(app: App): Promise<void> {
 			registerRoutes(module.routes, router);
 		}
 
-		if (module.guard) {
-			registerGuard(module.guard, router);
+		if (module.guards) {
+			module.guards.forEach((guard: NavigationGuard) => {
+				registerGuard(guard);
+			});
 		}
 
 		if (module.services) {
