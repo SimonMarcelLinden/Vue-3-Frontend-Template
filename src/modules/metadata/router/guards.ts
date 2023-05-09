@@ -1,15 +1,24 @@
-import router from '@/router'
-import { Router, RouteLocationNormalized, NavigationGuardNext } from 'vue-router'
+import { RouteRecordRaw, RouteLocationNormalized, NavigationGuardNext } from 'vue-router'
 
-router.beforeEach(async (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-
+/**
+ * BeforeEachGuard
+ *
+ * @param to - The target route being navigated to.
+ * @param from - The current route being navigated from.
+ * @param next - A function to indicate how to proceed with the navigation.
+ * @returns void
+ *
+ * @author Simon Marcel Linden
+ * @since 1.0.0
+ */
+export function MetadataGuard(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
 	// Set meta tags
-    // @ts-ignore-next-line
+	// @ts-ignore-next-line
 	const nearestWithTitle = to.matched.slice().reverse().find(r => r.meta && r.meta.title);
 	// Find the nearest route element with meta tags.
-    // @ts-ignore-next-line
+	// @ts-ignore-next-line
 	const nearestWithMeta = to.matched.slice().reverse().find(r => r.meta && r.meta.metaTags);
-    // @ts-ignore-next-line
+	// @ts-ignore-next-line
 	const previousNearestWithMeta = from.matched.slice().reverse().find(r => r.meta && r.meta.metaTags);
 
 	// If a route with a title was found, set the document (page) title to that value.
@@ -50,9 +59,6 @@ router.beforeEach(async (to: RouteLocationNormalized, from: RouteLocationNormali
 	// @ts-ignore-next-line
 	.forEach(tag => document.head.appendChild(tag));
 
-	return next();
-});
+	// return next();
 
-// export default router
-export default (router: Router) => { }
-
+}
