@@ -1,24 +1,36 @@
-import { createApp } 	from 'vue'
-import App 				from './app.view.vue'
-import router 			from './router'
+import { createApp } from 'vue';
+import { registerModule, router, addDefaultRoutes  } from './module-loader';
+
 import store 			from './store'
 
-import { registerComponents } from "@/register-components";
-import { registerModules }    from "@/register-modules";
+import App from './app.view.vue';
 
-import metaDataModule 			from '@/modules/metadata'
-import authenticationModule 	from '@/modules/authentication'
+import ExampleView from '@/views/example.view.vue'
 
-const app = createApp(App, { /** Options **/ })
+// Definiere die Standardrouten
+const defaultRoutes = [
+	{
+		path: '/',
+		component:ExampleView
+	},
+	{
+		path: '/about',
+		component: ExampleView
+	},
+];
 
-registerComponents(app);
+// Füge die Standardrouten hinzu
+addDefaultRoutes(defaultRoutes);
 
-registerModules({
-	meta			: metaDataModule,
-	authentication	: authenticationModule
+// Lade und registriere das Beispielmodul
+const app = createApp(App);
+
+registerModule(app)
+.then(() => {
+    app.use(store)
+	app.use(router);
+	app.mount('#app');
+})
+.catch((error) => {
+	console.error('Error loading module:', error);
 });
-
-app.use(store)
-app.use(router)
-
-app.mount('#app')
