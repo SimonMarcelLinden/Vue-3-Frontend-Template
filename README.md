@@ -1,4 +1,4 @@
-# backend.schulz-hygiene.de
+# Vue-3-Frontend-Template
 
 ## Project setup
 ```
