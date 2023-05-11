@@ -1,11 +1,11 @@
 import { ActionTree }			from 'vuex';
 import { Response }				from '@/models/response/interfaces/response.interface.model';
 
-import { AuthenticationService } from '../services';
+import { AuthenticationService } from '../services/authentication.service';
 
 import { RootState }			from '@/store/root.store';
 import { AuthenticationState } 	from './state.store';
-import { Token } 				from '@/models/token/token.model';
+import { Token } 				from '../models/token/token.model';
 
 export const actions: ActionTree<AuthenticationState, RootState> = {
 	login({ commit }: any, { email, password }: { email: string, password: string }) {

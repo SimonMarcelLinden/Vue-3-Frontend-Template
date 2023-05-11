@@ -1,7 +1,7 @@
-import { Token }	from '@/models/token/token.model';
+import { Token }	from '../models/token/token.model';
 import config		from '@/services/_config';
 import axios		from 'axios';
-import store 		from "@/store";
+// import store 		from "@/store";
 
 export const AuthenticationService = {
 	login,
@@ -18,7 +18,6 @@ export const AuthenticationService = {
  * @version 1.0
  */
 async function login(email: string, password: string): Promise<Token> {
-
 	try {
 		const response = handleResponse(await axios.post(`${config.apiUrl}/auth/login`, { email, password }));
 		const token: Token = new Token(response.data);

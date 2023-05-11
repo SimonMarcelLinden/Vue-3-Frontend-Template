@@ -3,7 +3,7 @@ import { actions } 				from './actions.store';
 import { mutations }			from "./mutations.store";
 import { AuthenticationState } 	from './state.store';
 
-import { getTokenHelper, getExpirationHelper } 		from '@/helpers';
+import { getTokenHelper, getExpirationHelper } from '../helpers';
 
 export const state: AuthenticationState = {
 	token		: getTokenHelper(),

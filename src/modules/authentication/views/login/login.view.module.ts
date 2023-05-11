@@ -1,3 +1,4 @@
+import { router } from '@/module-loader';
 import { Vue } from 'vue-class-component'
 import { namespace } from 'vuex-class';
 
@@ -38,6 +39,7 @@ export default class Login extends Vue {
 		const { email, password } = this.credentials;
 		try {
 			await this.login(this.credentials)
+			router.push('dashboard');
 		} catch (error: any) {
 			this.error.field 	= Object.keys( error.response.data.data )[0]
 			this.error.title 	= error.response.data.detail;
