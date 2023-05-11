@@ -59,6 +59,6 @@ export function MetadataGuard(to: RouteLocationNormalized, from: RouteLocationNo
 	// @ts-ignore-next-line
 	.forEach(tag => document.head.appendChild(tag));
 
-	// return next();
+	return next();
 
 }
