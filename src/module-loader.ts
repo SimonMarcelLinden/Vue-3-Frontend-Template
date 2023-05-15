@@ -113,16 +113,34 @@ function registerGuard(guard: NavigationGuard): void{
 router.beforeEach((to, from, next) => {
 	// guards.forEach((guard) => guard(to, from, next));
 	// next();
-	const guards: NavigationGuard[] = []; // Füge hier deine Liste der Navigation Guards hinzu
 
-	const runGuards = async () => {
-		for (const guard of guards) {
-		await guard(to, from, next);
+	const guardsCount = guards.length;
+	let guardIndex = 0;
+
+	// Definition of the recursive function for executing the guards
+	function runGuard(index: number) {
+		if (index < guardsCount) {
+			// @ts-ignore-next-line
+			guards[index](to, from, (nextArg: boolean | string | RouteLocationRaw | NavigationGuardNext) => {
+				if (nextArg === false) {
+					// Cancel the navigation
+					next(false);
+				} else if (typeof nextArg === 'string' || (typeof nextArg === 'object' && typeof nextArg.replace === 'function')) {
+					// Forward to another route
+					next(nextArg);
+				} else {
+					// Continue navigation with the next guard
+					runGuard(index + 1);
+				}
+			});
+		} else {
+			// All guards passed, continue navigation
+			next();
 		}
-		next();
-	};
+	}
 
-	runGuards();
+	// Start executing the first guard
+	runGuard(guardIndex);
 });
 
 /**
