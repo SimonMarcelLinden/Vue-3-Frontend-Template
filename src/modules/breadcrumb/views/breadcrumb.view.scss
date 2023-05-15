@@ -1,0 +1,14 @@
+.page-header {
+	padding			: 0;
+	margin-bottom	: 1rem;
+	border			: none;
+	font-weight		: 600;
+	font-size		: 1.75rem;
+	color			: var(--heading-color);
+
+	.small, small {
+		font-size	: 1rem;
+		color		: rgba(var(--inverse-rgb), .5);
+		font-weight	: 300;
+	}
+}
